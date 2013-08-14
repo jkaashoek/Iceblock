@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title></title>
+</head>
+
+<body>
+<h1>You are logged in as a teahcer.</h1>
+<b> Classes being offered:</b>
+{% for c in courses %}
+     <b>Class:</b> {{ c.name }}  <b>Teacher:</b> {{ c.teacher }} <b>Capacity:</b> {{ c.max_cap }}<br>
+     <b>Description:</b> {{ c.description }}
+<form action="{% url 'deleted' %}" method="post"/>{% csrf_token %}
+<input type="submit" value="Delete class" name="{{c.id}}" /> </form><br><br>
+{% endfor %}<br>
+<h1>Actions:</h1>
+<form action="{% url 'newClassForm' %}" method="post"/>
+{% csrf_token %}
+<input type="submit" value="+ Add class"/>
+</form>
+Select spreadsheet (Excell document) with firstname in the first
+column bla bla bla
+<form action="{% url 'upload' %}" method="post" enctype="multipart/form-data" />
+{% csrf_token %}
+{{ form }}
+<input type="submit" value="Upload" />
+</form>
+
+
+
+</form>
+<form action="{% url 'logout_view' %}" method="post"/>
+{% csrf_token %}
+<input type="submit" value="Log out" align="right" />
+</form>
+<hr>
+<address></address>
+<!-- hhmts start --> Last modified: Fri Jul 26 10:10:11 EDT 2013 <!-- hhmts end -->
+</body> </html>

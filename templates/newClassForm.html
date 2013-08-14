@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title></title>
+</head>
+
+<body>
+<h1>To add more classes fill out the form below</h1>
+<br><br><br><hr>
+<form action="{% url 'add_class' %}" method="post">
+{% csrf_token %}
+Class name: <input type="text" id="name" name="name"/>      Teacher: <input type="text" id="teacher name" name="teacher name"/>
+Available for grades: <input type="text" value="(ex. 6, 6-7, 6-8)" id="availability" name="availability"/> Maximum Capacity: <input type="text" id="max_cap" name="max_cap" /><br><br>
+Description: <textarea rows="10" cols="117" id="description" name="description"/></textarea><br><br>
+<br><br><br>
+<input type="submit" value="Done" align="left" name="submit" />
+<input type="submit" value="Save and add another class" align="right" name="submit" />
+</form>
+
+
+<hr>
+<address></address>
+<!-- hhmts start --> Last modified: Wed Jul 24 14:53:33 EDT 2013 <!-- hhmts end -->
+</body> </html>

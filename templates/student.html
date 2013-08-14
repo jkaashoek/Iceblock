@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title></title>
+</head>
+
+<body>
+<font size="5"><b>Classes being offered:</b></font><br><br>
+{% for c in courses %}
+     <b>Class:</b> {{ c.name }}  <b>Teacher:</b> {{ c.teacher }} <b>Capacity:</b> {{ c.max_cap }}<br>
+     <b>Description:</b> {{ c.description }} <br><br>
+{% endfor %}<br>
+<hr>
+<b>Please order your choices below</b>
+<form action="{% url 'preferences' %}" method="post" id="order">
+{% csrf_token %}
+<table>
+{% for l in labels %}
+<tr>
+<td>
+{{ l }} Choice:
+</td>
+<td>
+<select name={{ l }} form="order">
+	 {% for i in courses %}
+	 <option name="{{l}}" value="{{ i.name }}"/>{{ i.name }}</option>
+	 {% endfor %}
+</select>
+</td>
+</tr>
+{% endfor %}
+<br><br>
+</table><br><br>
+<input type="submit" value="Submit"/>
+</form>
+<form action="{% url 'logout_view' %}" method="post"/>
+{% csrf_token %}
+<input type="submit" value="Log out" align="right" />
+</form>
+<hr>
+<address></address>
+<!-- hhmts start --> Last modified: Tue Aug 13 11:52:19 EDT 2013 <!-- hhmts end -->
+</body> </html>

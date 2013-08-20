@@ -98,16 +98,16 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'Iceblock.urls'
+ROOT_URLCONF = 'IceblockGit.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'Iceblock.wsgi.application'
+WSGI_APPLICATION = 'IceblockGit.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/Users/jkaashoek/documents/Programming/Django/School Project/Iceblock/templates'
+    '/Users/jkaashoek/documents/Programming/Django/School Project/IceblockGit/templates'
 
 )
 
@@ -122,7 +122,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'Iceblock'
+    'IceblockGit'
 )
 
 # A sample logging configuration. The only tangible logging

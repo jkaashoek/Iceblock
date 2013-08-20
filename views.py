@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from models import Course, UserProfile
+from models import Course, UserProfile, Assignment
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
@@ -8,8 +8,38 @@ from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 import csv, re
 
+def Generator(request):
+    allofem = Assignment.objects.all()
+    for a in allofem:
+        a.delete()
+    pref = UserProfile.objects.all()
+    opt_dict = {}
+    for stu in pref:
+        opt_dict[stu]= [stu.option1, stu.option2, stu.option3, stu.option4, stu.option5]
+    courses = Course.objects.all()
+    results = {}
+    caps = {}
+    for i in courses:
+        caps[i.name]= i.max_cap
+    for i in courses:
+        results[i.name]= []
+    for stu in pref:
+        print stu.user.username
+        for i in range(5):
+            if opt_dict[stu][i] != "" and len(results[opt_dict[stu][i]]) < caps[opt_dict[stu][i]] and stu.user not in results[opt_dict[stu][i]]:
+                   results[opt_dict[stu][i]].append(stu.user)
+            else:
+                continue
+    for i in results.keys():
+        for j in results[i]:
+            assignment = Assignment()
+            assignment.user = j
+            assignment.class_name = i
+            print j, i
+            assignment.save()
+    return HttpResponse("Hello world")
+
 def add_user(content):
-    # spamreader = csv.reader(content, delimiter=',', quotechar='|')
     rows = content.split('\r')
     for row in rows[1:]:
         row = row.split(',')
@@ -46,7 +76,6 @@ class UploadFileForm(forms.Form):
     file  = forms.FileField()
 
 def upload(request):
-    print 'LOOOOOOOOK HEEEEERRRREEEEE', request.FILES, request.POST
     form = UploadFileForm(request.POST, request.FILES)
     f = request.FILES['file']
     add_user(f.read())
@@ -57,9 +86,7 @@ def student(request):
     return render(request, 'student.html', {'courses':l, 'labels':['First', 'Second', 'Third', 'Fourth', 'Fifth']})
 
 def preferences(request):
-    print "preferences", request.POST.keys()
     user = request.user
-    print "DAD IS A POOOOOOOPP", user
     uinfo = UserProfile.objects.get(user_id=user.id)
     uinfo.option1 = request.POST['First']
     uinfo.option2 = request.POST['Second']
@@ -70,7 +97,6 @@ def preferences(request):
     return HttpResponseRedirect(reverse('student'))
 
 def deleted(request):
-    # delete = the delete buttons id
     ident = ''
     for key in request.POST.keys():
         if request.POST[key] == 'Delete class':
@@ -82,8 +108,6 @@ def deleted(request):
     
 def teacher(request):
     l = Course.objects.all()
-    # for c in l:
-    #    print c
     form = UploadFileForm()
     return render(request, 'teacher.html', {'courses':l, 'form':form})
 
@@ -111,13 +135,11 @@ def add_class(request):
     
 
 def home(request):
-    # print "home:"
     return render(request, 'index.html', {})
     
 def logggggin(request):
     username = request.POST['username']
     password = request.POST['password']
-    # print "login", username, password
     user = authenticate(username=username, password=password)
     if user is not None:
         if user.is_active:
@@ -136,15 +158,4 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('home'))
 
-## 1. Login page (documentation at: https://docs.djangoproject.com/en/dev/topics/auth/default/#user-objects)
-## 2. Find out how to redirect (look at views part in tutorial)
-## 3. Find out how to display error
-## 4. Make login page beautius (bootstrap)
-
-## 1. Create users (figure out how to set username as lastFirst)
-## 2. Show classes that are only offered for that grade. 6-8 means 6, 7, 8
-## if studentuser.grade >= available[0] and studentuser.grade <= available[2]:
-##     print
-## else:
-## 3. Get a list of preferences for user.id
     

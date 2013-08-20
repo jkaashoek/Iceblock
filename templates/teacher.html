@@ -32,7 +32,11 @@ column bla bla bla
 {% csrf_token %}
 <input type="submit" value="Log out" align="right" />
 </form>
+<form action="{% url 'logout_view' %}" method="post"/>
+{% csrf_token %}
+<a href="{% url 'Generator' %}">Click to generate class assignments</a>
+
 <hr>
 <address></address>
-<!-- hhmts start --> Last modified: Fri Jul 26 10:10:11 EDT 2013 <!-- hhmts end -->
+<!-- hhmts start --> Last modified: Tue Aug 13 21:51:37 EDT 2013 <!-- hhmts end -->
 </body> </html>

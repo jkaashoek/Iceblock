@@ -22,6 +22,10 @@ class UserProfile(models.Model):
     option3 = models.CharField(max_length=50)
     option4 = models.CharField(max_length=50)
     option5 = models.CharField(max_length=50)
+
+class Assignment(models.Model):
+    user = models.ForeignKey(User, unique=True)
+    class_name = models.CharField(max_length=900)
     
 
 ## class teacher(model.Model):

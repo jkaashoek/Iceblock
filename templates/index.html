@@ -1,17 +1,10 @@
-<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
-<html> <head>
-<title></title>
-</head>
-
-<body>
+{% extends "base.html" %}
+{% block body %}
 <h1>Hello world! Please log in below</h1>
 <form action="{% url 'login' %}" method="post">
 {% csrf_token %}
 Username:<input type="text" id="username" name="username"/><br>
 Password:<input type="password" id="password" name="password"/>
-<input type="submit" value="Login" />
+<input type="submit" value="Login" class="btn btn-inverse btn-small"/>
 </form>
-<hr>
-<address></address>
-<!-- hhmts start --> Last modified: Sat Jul 20 17:56:04 EDT 2013 <!-- hhmts end -->
-</body> </html>
+{% endblock body %}

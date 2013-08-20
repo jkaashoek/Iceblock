@@ -1,9 +1,5 @@
-<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
-<html> <head>
-<title></title>
-</head>
-
-<body>
+{% extends "base.html" %}
+{% block body %}
 <font size="5"><b>Classes being offered:</b></font><br><br>
 {% for c in courses %}
      <b>Class:</b> {{ c.name }}  <b>Teacher:</b> {{ c.teacher }} <b>Capacity:</b> {{ c.max_cap }}<br>
@@ -36,7 +32,4 @@
 {% csrf_token %}
 <input type="submit" value="Log out" align="right" />
 </form>
-<hr>
-<address></address>
-<!-- hhmts start --> Last modified: Tue Aug 13 11:52:19 EDT 2013 <!-- hhmts end -->
-</body> </html>
+{% endblock body %}

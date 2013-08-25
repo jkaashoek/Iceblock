@@ -5,9 +5,15 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django import forms
+from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 import csv, re
 
+
+def Register(request):
+    return HttpResponse("Nice")
+def About(request):
+    return HttpResponse("Good")
 def Generator(request):
     allofem = Assignment.objects.all()
     for a in allofem:
@@ -152,7 +158,8 @@ def logggggin(request):
         else:
             return HttpResponseRedirect(reverse('home'))
     else:
-       return HttpResponseRedirect(reverse('home'))
+        messages.add_message(request, messages.ERROR, 'Your username or password is invalid')
+        return HttpResponseRedirect(reverse('home'))
    
 def logout_view(request):
     logout(request)

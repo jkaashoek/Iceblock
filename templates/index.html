@@ -20,10 +20,28 @@
   <div>
   <button type="submit" class="btn btn-inverse btn-small">Sign in</button>
   </div>
-  
+
 </form>
 </div>
+
+{% if messages %}
+<div class="alert alert-error logerrors">
+    {% for message in messages %}
+    <p>{% if message.tags %} {% endif %}{{ message }}</p>
+    {% endfor %}
 </div>
+{% endif %}
+</div>
+<div class="navbar navbar-fixed-bottom">
+  <div class="navbar-inner lognav">
+  <ul class="nav">
+    <li><a href="{% url 'About' %}">About us</a></li>
+    <li><a href="{% url 'Register' %}">Register</a></li>
+  </ul>
+  </div>
+</div>
+    
+
 </body>
 {% endblock %}
 

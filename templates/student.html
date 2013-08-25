@@ -25,8 +25,10 @@
 </tr>
 {% endfor %}
 <br><br>
-</table><br><br>
-<input type="submit" value="Submit"/>
+</table>
+<div class="span4">
+<input type="submit" value="Submit" class="btn btn-small btn-block btn-primary"/>
+  </div>
 </form>
 <form action="{% url 'logout_view' %}" method="post"/>
 {% csrf_token %}

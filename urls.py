@@ -16,7 +16,9 @@ urlpatterns = patterns('',
     url(r'^deleted$', 'IceblockGit.views.deleted', name='deleted'),
     url(r'^newClassForm$', 'IceblockGit.views.newClassForm', name='newClassForm'),
     url(r'^upload$', 'IceblockGit.views.upload', name='upload'),
-    url(r'^Generator$', 'IceblockGit.views.Generator', name='Generator'),    
+    url(r'^Generator$', 'IceblockGit.views.Generator', name='Generator'),
+    url(r'^About$', 'IceblockGit.views.About', name='About'),
+    url(r'^Register$', 'IceblockGit.views.Register', name='Register'),  
     # url(r'^IceblockGit/', include('IceblockGit.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

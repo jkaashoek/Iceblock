@@ -15,3 +15,11 @@ div.login {
 .container.widthswitcher{
     width: 720px;
 }
+div.lognav {
+    background: FloralWhite;
+}
+div.logerrors {
+    width: 670px;
+    align: center;
+    text-align: center;
+}

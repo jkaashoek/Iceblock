@@ -7,7 +7,7 @@
      <b>Class:</b> {{ c.name }}  <b>Teacher:</b> {{ c.teacher }} <b>Capacity:</b> {{ c.max_cap }}<br>
      <b>Description:</b> {{ c.description }}
 <form action="{% url 'deleted' %}" method="post"/>{% csrf_token %}
-<input type="submit" value="Delete class" name="{{c.id}}" class="btn btn-inverse btn-tiny"/> </form><br><br>
+<input type="submit" value="Delete class" name="{{c.id}}" class="btn btn-inverse btn-mini"/> </form><br><br>
 {% endfor %}<br>
 <h1>Actions:</h1>
 <form action="{% url 'newClassForm' %}" method="post"/>

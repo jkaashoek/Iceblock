@@ -1,0 +1,17 @@
+div.login {
+    width: 600px;
+    background: FloralWhite;
+    text-align: center;
+}
+.login h1 {
+    font-size: 200%;
+    color: black;
+    font-family: "Times New Roman", Times, serif;
+}
+.loginbody {
+    background: DimGrey
+}
+
+.container.widthswitcher{
+    width: 720px;
+}

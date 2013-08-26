@@ -1,36 +1,85 @@
 {% extends "base.html" %}
 {% block body %}
 
-<h1>You are logged in as a teacher.</h1>
-<b> Classes being offered:</b>
+<h1><i>You are logged in as a teacher.</i></h1><br>
+<hr>
+<h2><b> Classes being offered:</h2></b>
 {% for c in courses %}
      <b>Class:</b> {{ c.name }}  <b>Teacher:</b> {{ c.teacher }} <b>Capacity:</b> {{ c.max_cap }}<br>
      <b>Description:</b> {{ c.description }}
 <form action="{% url 'deleted' %}" method="post"/>{% csrf_token %}
 <input type="submit" value="Delete class" name="{{c.id}}" class="btn btn-inverse btn-mini"/> </form><br><br>
 {% endfor %}<br>
-<h1>Actions:</h1>
-<form action="{% url 'newClassForm' %}" method="post"/>
-{% csrf_token %}
-<input type="submit" value="+ Add class"/>
-</form>
-Select spreadsheet (Excell document) with firstname in the first
-column bla bla bla
-<form action="{% url 'upload' %}" method="post" enctype="multipart/form-data" />
-{% csrf_token %}
-{{ form }}
-<input type="submit" value="Upload" />
-</form>
 
 
 
-</form>
-<form action="{% url 'logout_view' %}" method="post"/>
+
+
+
+<form action="{% url 'logout_view' %}" method="post">
 {% csrf_token %}
-<input type="submit" value="Log out" align="right" />
 </form>
-<form action="{% url 'logout_view' %}" method="post"/>
-{% csrf_token %}
 <a href="{% url 'Generator' %}">Click to generate class assignments</a>
+
+<div class="navbar navbar-fixed-bottom">
+  <div class="navbar-inner teachnav">
+  <ul class="nav">
+    <li><a href="#addClass" role="button" data-toggle="modal"">Add class</a></li>
+    <li class="divider-vertical"></li>
+   <li><a href="#addStudent" role="button" data-toggle="modal"">Add student</a></li>
+  <li class="divider-vertical"></li>
+    <li class="pull-right"><a href="{% url 'logout_view'%}">Logout</a></li>
+  <li class="divider-vertical"></li>
+  </ul>
+  </div>
+</div>
+    
+ <div id="addClass" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">To add class fill out the form below</h3>
+  </div>
+  <div class="modal-body">
+  <form action="{% url 'add_class' %}" method="post">
+{% csrf_token %}
+Class name: <input type="text" id="name" name="name"/>      Teacher: <input type="text" id="teacher name" name="teacher name"/>
+Available for grades: <input type="text" value="(ex. 6, 6-7, 6-8)" id="availability" name="availability"/> Maximum Capacity: <input type="text" id="max_cap" name="max_cap" /><br><br>
+Description: <textarea rows="10" cols="117" id="description" name="description"/></textarea><br><br>
+<br><br><br>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button type="submit" class="btn btn-primary">Save changes</button>
+  </div>
+  </form>
+  </div>
+
+ <div id="addStudent" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">To add a user upload a CSV file (spreadsheet)</h3>
+  </div>
+  <div class="modal-body">
+    <b>Format:</b> Your file must be saved as xxx.csv. In the first
+  column please have the user's first name. In the second column,
+  you should have your user's last name. The third column should
+  contain thier password, which will be protected from everyone
+  including the website creators. The fourth should have the school (please
+  include this for EVERY student). The fifth column should have the
+  user's grade, and the sixth and last column should either have
+  "admin" if you wish them to be admin, or "student" if they are a
+  student. <br><br>
+  <form action="{% url 'upload' %}" method="post"/>
+{% csrf_token %}
+{{ form }}<br><br>
+    <b>Note:</b> If your file is not saved as a csv file or is not in
+  the format specified above, the process will not work. 
+   </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button type="submit" value="Upload" class="btn btn-primary">Upload</button>
+  </div>
+  </form>
+  </div>
 
 {% endblock body %}

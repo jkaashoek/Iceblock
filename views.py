@@ -78,7 +78,6 @@ def add_user(content):
         
 
 class UploadFileForm(forms.Form):
-    title = forms.CharField(max_length=50)
     file  = forms.FileField()
 
 def upload(request):
@@ -126,18 +125,15 @@ def add_class(request):
     availability = request.POST['availability']
     description = request.POST['description']
     max_cap = request.POST['max_cap']
-    if request.POST['submit'] == "Done":
-        return HttpResponseRedirect(reverse('teacher'))
-    else:
-        print name, teacher, availability, description, max_cap
-        c = Course()
-        c.name = name
-        c.teacher = teacher
-        c.available = availability
-        c.max_cap = max_cap
-        c.description = description
-        c.save()
-        return HttpResponseRedirect(reverse('newClassForm'))
+    print name, teacher, availability, description, max_cap
+    c = Course()
+    c.name = name
+    c.teacher = teacher
+    c.available = availability
+    c.max_cap = max_cap
+    c.description = description
+    c.save()
+    return HttpResponseRedirect(reverse('teacher'))
     
 
 def home(request):

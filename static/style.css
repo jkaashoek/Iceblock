@@ -23,3 +23,10 @@ div.logerrors {
     align: center;
     text-align: center;
 }
+.bodychange {
+    background: DimGrey
+}
+.teachnav {
+    font-size: 150%;
+    background: FloralWhite;
+}

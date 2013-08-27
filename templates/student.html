@@ -1,37 +1,55 @@
 {% extends "base.html" %}
 {% block body %}
-<font size="5"><b>Classes being offered:</b></font><br><br>
-{% for c in courses %}
-     <b>Class:</b> {{ c.name }}  <b>Teacher:</b> {{ c.teacher }} <b>Capacity:</b> {{ c.max_cap }}<br>
-     <b>Description:</b> {{ c.description }} <br><br>
-{% endfor %}<br>
-<hr>
-<b>Please order your choices below</b>
-<form action="{% url 'preferences' %}" method="post" id="order">
-{% csrf_token %}
-<table>
-{% for l in labels %}
-<tr>
-<td>
-{{ l }} Choice:
-</td>
-<td>
-<select name={{ l }} form="order">
-	 {% for i in courses %}
-	 <option name="{{l}}" value="{{ i.name }}"/>{{ i.name }}</option>
-	 {% endfor %}
-</select>
-</td>
-</tr>
-{% endfor %}
-<br><br>
-</table>
-<div class="span4">
-<input type="submit" value="Submit" class="btn btn-small btn-block btn-primary"/>
+<div class="hero-unit teachhero">
+<h2><b> Classes being offered:</h2></b><br>
+<table class="table table-bordered">
+  <tr>
+    <th>Class</th><th>Teacher</th><th>Capacity</th><th>Description</th></tr>
+    {% for c in courses %}
+    <tr>
+      <td>{{ c.name }}</td><td>{{ c.teacher }}</td><td>{{ c.max_cap}}</td><td>{{ c.description }}</td>
+	</tr>
+    {% endfor %}
+    </table>
+    <a href="#PreferencesModal" role="button" class="btn btn-inverse" data-toggle="modal">Click to order preferences</a>
+</div>
+
+ <div class="navbar navbar-fixed-bottom">
+  <div class="navbar-inner teachnav">
+  <ul class="nav">
+    <li><a href="{% url 'logout_view' %}"role="button"">Logout</a></li>
+  </ul>
   </div>
-</form>
-<form action="{% url 'logout_view' %}" method="post"/>
-{% csrf_token %}
-<input type="submit" value="Log out" align="right" />
-</form>
+  </div>
+
+<div id="PreferencesModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h2>Order your preferences below</h2>
+  </div>
+  <div class="modal-body">
+    <table class="table">
+      {% for l in labels %}
+      <tr>
+	<td>
+	  {{ l }} Choice:
+	</td>
+	<td>
+	  <select name={{ l }} form="order">
+	    {% for i in courses %}
+	    <option name="{{l}}" value="{{ i.name }}"/>{{ i.name }}</option>
+	      {% endfor %}
+	  </select>
+	</td>
+      </tr>
+      {% endfor %}
+      <br><br>
+    </table>
+    <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary">Save changes</button>
+    </div>
+    </div>
+</div>
 {% endblock body %}
+

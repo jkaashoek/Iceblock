@@ -30,3 +30,10 @@ div.logerrors {
     font-size: 150%;
     background: FloralWhite;
 }
+.teachtable {
+    border: 1px solid white;
+    padding: 10px;
+}
+.teachhero{
+    background: FloralWhite
+}

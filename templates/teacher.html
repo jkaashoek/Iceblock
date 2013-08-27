@@ -1,16 +1,24 @@
 {% extends "base.html" %}
 {% block body %}
 
-<h1><i>You are logged in as a teacher.</i></h1><br>
+<h1><i>You are logged in as a teacher.</i></h1>
 <hr>
-<h2><b> Classes being offered:</h2></b>
-{% for c in courses %}
-     <b>Class:</b> {{ c.name }}  <b>Teacher:</b> {{ c.teacher }} <b>Capacity:</b> {{ c.max_cap }}<br>
-     <b>Description:</b> {{ c.description }}
-<form action="{% url 'deleted' %}" method="post"/>{% csrf_token %}
-<input type="submit" value="Delete class" name="{{c.id}}" class="btn btn-inverse btn-mini"/> </form><br><br>
-{% endfor %}<br>
-
+<div class="hero-unit teachhero">
+<h2><b> Classes being offered:</h2></b><br>
+<table class="table table-bordered">
+  <tr>
+    <th>Class</th><th>Teacher</th><th>Capacity</th><th>Description</th><th>Delete class?</th>
+  </tr>
+    {% for c in courses %}
+    <tr>
+      <td>{{ c.name }}</td><td>{{ c.teacher }}</td><td>{{ c.max_cap}}</td><td>{{ c.description }}</td>
+      <td><form action="{% url 'deleted' %}" method="post"/>{% csrf_token %}
+      <input type="submit" value="Delete class" name="{{c.id}}"
+	class="btn btn-inverse btn-mini"/> </form></td>
+	</tr>
+    {% endfor %}
+    </table>
+</div>
 
 
 

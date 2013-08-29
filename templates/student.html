@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block body %}
+
 <div class="hero-unit teachhero">
 <h2><b> Classes being offered:</h2></b><br>
 <table class="table table-bordered">
@@ -28,6 +29,7 @@
     <h2>Order your preferences below</h2>
   </div>
   <div class="modal-body">
+     <form id="order" name="order" action="{% url 'preferences' %}" method="post">{% csrf_token %}
     <table class="table">
       {% for l in labels %}
       <tr>
@@ -45,10 +47,12 @@
       {% endfor %}
       <br><br>
     </table>
+    </div>
     <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <button class="btn btn-primary">Save changes</button>
-    </div>
+    <button type="submit" class="btn btn-primary">Savechanges</button>
+      </div>
+      </form>
     </div>
 </div>
 {% endblock body %}

@@ -12,8 +12,10 @@ import csv, re
 
 def Register(request):
     return HttpResponse("Nice")
+
 def About(request):
-    return HttpResponse("Good")
+    return render(request, 'aboutus.html',{})
+
 def Generator(request):
     allofem = Assignment.objects.all()
     for a in allofem:
@@ -98,8 +100,16 @@ def preferences(request):
     uinfo.option3 = request.POST['Third']
     uinfo.option4 = request.POST['Fourth']
     uinfo.option5 = request.POST['Fifth']
+    pref_list = [uinfo.option1, uinfo.option2, uinfo.option3, uinfo.option4, uinfo.option5]
+    pref_list2 = []
+    for i in pref_list:
+        if i in pref_list2:
+            messages.add_message(request, messages.ERROR, 'Your preferences were not submitted. All your preferences must be different')
+        pref_list2.append(i)
     uinfo.save()
+    messages.add_message(request, messages.SUCCESS, 'Your preferences were successfully sumbitted. Feel free to change your preferences at any time')
     return HttpResponseRedirect(reverse('student'))
+
 
 def deleted(request):
     ident = ''

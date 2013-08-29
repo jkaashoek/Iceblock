@@ -4,9 +4,8 @@ div.login {
     text-align: center;
 }
 .login h1 {
-    font-size: 200%;
+    font-size: 150%;
     color: black;
-    font-family: "Times New Roman", Times, serif;
 }
 .loginbody {
     background: DimGrey
@@ -28,7 +27,8 @@ div.logerrors {
 }
 .teachnav {
     font-size: 150%;
-    background: FloralWhite;
+    background: DimGrey;
+ 
 }
 .teachtable {
     border: 1px solid white;
@@ -36,4 +36,15 @@ div.logerrors {
 }
 .teachhero{
     background: FloralWhite
+}
+.aboutbody {
+    text-color: white;
+    align: center;
+}
+.contact{
+    text-align: left;
+    padding-bottom: 2px;
+}
+.aboutunit {
+    background: FloralWhite;
 }

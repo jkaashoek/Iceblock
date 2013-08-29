@@ -34,9 +34,12 @@ def Generator(request):
     for stu in pref:
         print stu.user.username
         for i in range(5):
-            if opt_dict[stu][i] != "" and len(results[opt_dict[stu][i]]) < caps[opt_dict[stu][i]] and stu.user not in results[opt_dict[stu][i]]:
-                   results[opt_dict[stu][i]].append(stu.user)
-            else:
+            try:
+                if opt_dict[stu][i] != "" and len(results[opt_dict[stu][i]]) < caps[opt_dict[stu][i]] and stu.user not in results[opt_dict[stu][i]]:
+                    results[opt_dict[stu][i]].append(stu.user)
+                else:
+                    continue
+            except KeyError:
                 continue
     for i in results.keys():
         for j in results[i]:
@@ -45,7 +48,19 @@ def Generator(request):
             assignment.class_name = i
             print j, i
             assignment.save()
-    return HttpResponse("Hello world")
+    return HttpResponseRedirect(reverse('showassignments')) 
+
+def showassignments(request):
+    print "showassignments"
+    classassignment = {}
+    allassignments = Assignment.objects.all()
+    for a in allassignments:
+        if a.class_name in classassignment:
+            classassignment[a.class_name].append(a.user)
+        else:
+            classassignment[a.class_name] = [a.user]
+    print classassignment
+    return render(request, 'showassignments.html', {'assignments': classassignment})
 
 def add_user(content):
     rows = content.split('\r')
@@ -102,12 +117,15 @@ def preferences(request):
     uinfo.option5 = request.POST['Fifth']
     pref_list = [uinfo.option1, uinfo.option2, uinfo.option3, uinfo.option4, uinfo.option5]
     pref_list2 = []
+    error=False
     for i in pref_list:
         if i in pref_list2:
             messages.add_message(request, messages.ERROR, 'Your preferences were not submitted. All your preferences must be different')
+            error = True
         pref_list2.append(i)
-    uinfo.save()
-    messages.add_message(request, messages.SUCCESS, 'Your preferences were successfully sumbitted. Feel free to change your preferences at any time')
+    if error == False:
+        uinfo.save()
+        messages.add_message(request, messages.SUCCESS, 'Your preferences were successfully sumbitted. Feel free to change your preferences at any time')
     return HttpResponseRedirect(reverse('student'))
 
 

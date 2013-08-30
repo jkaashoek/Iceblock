@@ -2,6 +2,11 @@
 {% block body %}
 
 <div class="hero-unit teachhero">
+  {% if messages %}
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %}>{{ message }}</div>
+    {% endfor %}
+{% endif %}
 <h2><b> Classes being offered:</h2></b><br>
 <table class="table table-bordered">
   <tr>

@@ -27,7 +27,7 @@ div.logerrors {
 }
 .teachnav {
     font-size: 150%;
-    background: DimGrey;
+    background: FloralWhite;
  
 }
 .teachtable {
@@ -46,5 +46,8 @@ div.logerrors {
     padding-bottom: 2px;
 }
 .aboutunit {
+    background: FloralWhite;
+}
+.assignhero {
     background: FloralWhite;
 }

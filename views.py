@@ -16,6 +16,20 @@ def Register(request):
 def About(request):
     return render(request, 'aboutus.html',{})
 
+def mkkey(classname, grade):
+    return classname+" G"+grade
+
+def canassign(classpref, stu, stugrade, caps, results):
+    if classpref == '':
+        return False
+    try:
+        if len(results[mkkey(classpref, stugrade)]) < caps[mkkey(classpref,stugrade)] and stu not in results[mkkey(classpref,stugrade)]:
+            return True
+        else:
+            return False
+    except KeyError:
+        return False
+     
 def Generator(request):
     allofem = Assignment.objects.all()
     for a in allofem:
@@ -28,30 +42,24 @@ def Generator(request):
     results = {}
     caps = {}
     for i in courses:
-        caps[i.name]= i.max_cap
+        caps[mkkey(i.name,i.available)]= i.max_cap
     for i in courses:
-        results[i.name]= []
+        results[mkkey(i.name, i.available)]= []
     for stu in pref:
-        print stu.user.username
         for i in range(5):
-            try:
-                if opt_dict[stu][i] != "" and len(results[opt_dict[stu][i]]) < caps[opt_dict[stu][i]] and stu.user not in results[opt_dict[stu][i]]:
-                    results[opt_dict[stu][i]].append(stu.user)
-                else:
-                    continue
-            except KeyError:
+            if canassign(opt_dict[stu][i], stu.user, str(stu.grade), caps, results):
+                results[mkkey(opt_dict[stu][i], str(stu.grade))].append(stu.user)
+            else:
                 continue
     for i in results.keys():
         for j in results[i]:
             assignment = Assignment()
             assignment.user = j
             assignment.class_name = i
-            print j, i
             assignment.save()
     return HttpResponseRedirect(reverse('showassignments')) 
 
 def showassignments(request):
-    print "showassignments"
     classassignment = {}
     allassignments = Assignment.objects.all()
     for a in allassignments:
@@ -59,18 +67,15 @@ def showassignments(request):
             classassignment[a.class_name].append(a.user)
         else:
             classassignment[a.class_name] = [a.user]
-    print classassignment
     return render(request, 'showassignments.html', {'assignments': classassignment})
 
 def add_user(content):
     rows = content.split('\r')
     for row in rows[1:]:
         row = row.split(',')
-        print 'row', row
         username = row[1].lower() + row[0].lower()
         try:
             user = User.objects.get(username = username)
-            print user
         except ObjectDoesNotExist:
             user = User.objects.create_user(username)
         user.set_password(row[2])
@@ -88,7 +93,6 @@ def add_user(content):
             uinfo = UserProfile()
         uinfo.user = user
         uinfo.school = row[3]
-        print uinfo.school
         if re.match("\d+", row[4]):
             uinfo.grade = int(row[4])
         uinfo.save()
@@ -104,8 +108,10 @@ def upload(request):
     return HttpResponseRedirect(reverse('teacher'))
 def student(request):
     showed = []
-    l = Course.objects.all()
-    return render(request, 'student.html', {'courses':l, 'labels':['First', 'Second', 'Third', 'Fourth', 'Fifth']})
+    usr = request.user
+    Student = UserProfile.objects.get(user_id=usr)
+    classes = Course.objects.filter(available=Student.grade)
+    return render(request, 'student.html', {'courses':classes, 'labels':['First', 'Second', 'Third', 'Fourth', 'Fifth']})
 
 def preferences(request):
     user = request.user
@@ -122,6 +128,7 @@ def preferences(request):
         if i in pref_list2:
             messages.add_message(request, messages.ERROR, 'Your preferences were not submitted. All your preferences must be different')
             error = True
+            break
         pref_list2.append(i)
     if error == False:
         uinfo.save()
@@ -153,7 +160,6 @@ def add_class(request):
     availability = request.POST['availability']
     description = request.POST['description']
     max_cap = request.POST['max_cap']
-    print name, teacher, availability, description, max_cap
     c = Course()
     c.name = name
     c.teacher = teacher

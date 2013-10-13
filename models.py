@@ -27,4 +27,5 @@ class Assignment(models.Model):
     user = models.ForeignKey(User, unique=False)
     class_name = models.CharField(max_length=900)
     
-
+class Config(models.Model):
+    clsDate = models.DateField()

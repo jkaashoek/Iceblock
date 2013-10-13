@@ -7,8 +7,26 @@ from django.contrib.auth import authenticate, login, logout
 from django import forms
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import send_mail, EmailMessage
 import csv, re
 
+def Publish(request):
+    print "PUBLISH"
+    assignments = Assignment.objects.all()
+    with open('publish.csv', 'wb') as csvfile:
+        spamwriter = csv.writer(csvfile, delimiter=',',
+                                quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        spamwriter.writerow(['Student', 'Assignment', 'Homeroom'])
+        for i in assignments:
+            spamwriter.writerow([i.user_id, i.class_name])
+    f = open('publish.csv', 'r')
+    print "Email is about to run"
+    mail = EmailMessage('Final class assignments', 'Your final class assignments are attached', 'justin.kaashoek@gmail.com',
+                        ['justin.kaashoek@gmail.com'])
+    mail.attach('publish.csv', f.read(), 'text/csv')
+    mail.send(fail_silently = False)
+    return HttpResponseRedirect(reverse('showassignments')) 
+        
 
 def Register(request):
     return HttpResponse("Nice")

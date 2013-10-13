@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="hero-unit assignhero">
+<table class="table">
+    {% for a,v in assignments.items %}
+  <tr>
+	<td>{{ a }}:</td><td>
+       {% for u in v %}
+	{{ u.username }}<br>
+	{% endfor %}
+	  </td></tr>
+	{% endfor %}
+</table>
+<form action="{% url 'Generator' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Refresh page" class="btn btn-success"/>
+    </form>
+<form action="{% url 'Publish' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Publish assignments" class="btn btn-success"/>
+    </form>
+</div>
+
+<div class="navbar navbar-fixed-bottom">
+  <div class="navbar-inner teachnav">
+  <ul class="nav">
+    <li><a href="{% url 'teacher'%}" role="button">Back</a></li>
+    <li class="divider-vertical"></li>
+    <li class="pull-right"><a href="{% url 'logout_view'%}">Logout</a></li>
+  <li class="divider-vertical"></li>
+  </ul>
+  </div>
+</div>
+
+{% endblock body %}
